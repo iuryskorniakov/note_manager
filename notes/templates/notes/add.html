@@ -3,14 +3,14 @@
 {% block content %}
 
 {% if form.errors %}
-<p>Detail</p>
+<p>Add new note.</p>
 {% endif %}
 
     <form action="" method="post">
       {% csrf_token %}
 
       {{ form.as_p }}
-      <button type="submit">DetilaView</button>
+      <button type="submit">Add</button>
     </form>
 
 {% endblock %}
