@@ -14,7 +14,7 @@ class Category(models.Model):
 # Create your models here.
 class Note(models.Model):
     """ Database table"""
-    uuid = models.CharField(max_length=255, default='', editable=False, primary_key=True)
+    uuid = models.CharField(max_length=255, default='', editable=False)
     title = models.CharField(max_length=255, default='')
     author = models.ForeignKey(User, default=None)
     body = models.TextField(default='')

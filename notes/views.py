@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.base import View
@@ -36,6 +36,9 @@ class AddNoteView(generic.CreateView):
         form.instance.notes_user = self.request.user
         return super(AddNoteView, self).form_valid(form)
 
+def post_detail(request, pk):
+        post = get_object_or_404(Note, pk=pk)
+        return render(request, 'notes/detail.html', {'post': post})
 
 class DetailNoteView(generic.DetailView):
     model = Note

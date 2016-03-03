@@ -6,8 +6,13 @@
                 <div class="date">
                     {{ note.published_date }}
                 </div>
+                <p><a href="">{{ note.author }}</a></p>
                 <h1><a href="">{{ note.title }}</a></h1>
                 <p>{{ note.body|linebreaks }}</p>
+                <div>
+                    <b>{{note.category}}</b>
+                    <p>{{ note.uuid}}</p>
+                </div>
             </div>
         {% endfor %}
     {% endblock content %}
