@@ -15,16 +15,21 @@ def home(request):
     context = {'notes': notes_list}
     return render(request, 'notes/home.html', context)
 
+
 def login_view(request):
-    username =request.POST('username')
-    password = request.POST('password')
-    user = auth.authenticate(username=username, password=password)
-    if user is not None and user.is_active:
-        auth.login(request,user)
-        return HttpResponseRedirect('/')
-    else:
-        return HttpResponseRedirect('notes/login')
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = auth.authenticate(username=username, password=password)
+        if user is not None and user.is_active:
+            auth.login(request, user)
+            return HttpResponseRedirect('/')
+    return render(request,'notes/login.html')
+
 
 @login_required()
 def logout_view(request):
     auth.logout(request)
+
+def register_view():
+    pass
