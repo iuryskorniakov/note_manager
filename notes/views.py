@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -14,9 +16,9 @@ from .models import Note
 
 # Create your views here.
 
-class HomeView(generic.DetailView):
-    model = Note
-    template_name = 'notes/home.html'
+def HomeView(request):
+    notes = Note.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    return render(request, 'notes/home.html', {'notes':notes})
 
 
 class ListView(generic.ListView):

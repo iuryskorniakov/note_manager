@@ -24,7 +24,7 @@ $('#table_id').DataTable({
 $( "img.fav" ).click(function() {
     var path = window.location.pathname
     var pk = $(this).attr('id');
-    var fav_url = "{% url 'notes_favorites' 1 %}".replace('1', pk);
+
     $.ajax({
         url: fav_url,
         success: function(data) {
