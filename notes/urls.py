@@ -1,8 +1,9 @@
-from .views import login_view, logout_view, register_view
+from notes import views
 from django.conf.urls import url
 
 urlpatterns = [
-    url(r'^login', login_view, name='login_view'),
-    url(r'logout', logout_view, name='logout_view'),
-    url(r'^register', register_view, name='register_view')
+    url(r'^login/$', views.LoginFormView.as_view()),
+    url(r'logout/$', views.LogoutView.as_view()),
+    url(r'^register/$', views.RegisterFormView.as_view())
 ]
+

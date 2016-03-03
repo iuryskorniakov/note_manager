@@ -6,20 +6,11 @@
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
 
-<form method="post" action="{% url 'notes:login_view' %}">
-{% csrf_token %}
+    <form action="" method="post">
+      {% csrf_token %}
 
-    <div>
-        <label>Username</label>
-        <input type="text" id="username">
-    </div>
-    <div>
-        <label>Password</label>
-        <input type="text" id="password">
-    </div>
-
-<button type="submit">Enter</button>
-
-</form>
+      {{ form.as_p }}
+      <button type="submit">Войти</button>
+    </form>
 
 {% endblock %}

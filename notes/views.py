@@ -2,34 +2,61 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.views import generic
+from django.views.generic.edit import FormView
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic.base import View
+from django.contrib.auth import logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login
+
 from .models import Note
 
 
 # Create your views here.
-@login_required
-def home(request):
+
+class HomeView(generic.ListView):
     """
     Main page
     """
-    notes_list = Note.objects.order_by('-pub_date')
-    context = {'notes': notes_list}
-    return render(request, 'notes/home.html', context)
+    template_name = 'notes/home.html'
+    context_object_name = 'notes'
+
+    @login_required()
+    def get_queryset(self):
+        return Note.objects.order_by('-pub_date')
 
 
-def login_view(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = auth.authenticate(username=username, password=password)
-        if user is not None and user.is_active:
-            auth.login(request, user)
-            return HttpResponseRedirect('/')
-    return render(request,'notes/login.html')
+class LoginFormView(FormView):
+    form_class = AuthenticationForm
+
+    template_name = "notes/login.html"
+
+    success_url = "/"
+
+    def form_valid(self, form):
+        self.user = form.get_user()
+
+        login(self.request, self.user)
+        return super(LoginFormView, self).form_valid(form)
 
 
-@login_required()
-def logout_view(request):
-    auth.logout(request)
+class LogoutView(View):
+    @login_required()
+    def get(self, request):
+        logout(request)
 
-def register_view():
-    pass
+        return HttpResponseRedirect("/")
+
+
+class RegisterFormView(FormView):
+    form_class = UserCreationForm
+
+    success_url = "/notes/login/"
+
+    template_name = "notes/register.html"
+
+    def form_valid(self, form):
+        form.save()
+
+        return super(RegisterFormView, self).form_valid(form)
