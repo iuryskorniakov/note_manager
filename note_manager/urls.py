@@ -19,5 +19,5 @@ from notes import  views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^notes/', include('notes.urls', namespace='notes')),
+    url(r'^', include('notes.urls', namespace='notes')),
 ]
