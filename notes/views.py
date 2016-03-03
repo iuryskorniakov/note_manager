@@ -15,7 +15,7 @@ from .models import Note
 
 # Create your views here.
 
-class HomeView(generic.ListView):
+class HomeView(generic.DetailView):
     """
     Main page
     """
