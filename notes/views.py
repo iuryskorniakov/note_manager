@@ -18,6 +18,7 @@ class HomeView(generic.DetailView):
     model = Note
     template_name = 'notes/home.html'
 
+
 class ListView(generic.ListView):
     model = Note
     template_name = 'notes/list.html'
@@ -33,13 +34,15 @@ class AddNoteView(generic.CreateView):
         form.instance.notes_user = self.request.user
         return super(AddNoteView, self).form_valid(form)
 
+
 class DetailNoteView(generic.DetailView):
     model = Note
     template_name = 'notes/detail.html'
 
-    def get_object(self, form):
+    def get_object(self):
         obj = super(DetailNoteView, self).get_object()
         return obj
+
 
 class EditNoteView(generic.UpdateView):
     model = Note
@@ -47,7 +50,7 @@ class EditNoteView(generic.UpdateView):
     success_url = '/'
     fields = ['title', 'body', 'date', 'category']
 
-    def get_object(self, form):
+    def get_object(self):
         obj = super(EditNoteView, self).get_object()
         return obj
 

@@ -1,16 +1,14 @@
-
+{% extends 'notes/base.html' %}
 
 {% block content %}
+    <h2>Add new note</h2>
 
-{% if form.errors %}
-<p>Add new note.</p>
-{% endif %}
-
-    <form action="" method="post">
-      {% csrf_token %}
-
-      {{ form.as_p }}
-      <button type="submit">Add</button>
+    <form action='' method = 'post'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type='submit' value='Добавить'>
     </form>
+
+    <hr>
 
 {% endblock %}
