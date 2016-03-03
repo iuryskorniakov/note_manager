@@ -15,11 +15,12 @@ from .models import Note
 # Create your views here.
 
 class HomeView(generic.DetailView):
-    """
-    Main page
-    """
     model = Note
     template_name = 'notes/home.html'
+
+class ListView(generic.ListView):
+    model = Note
+    template_name = 'notes/list.html'
 
 
 class AddNoteView(generic.CreateView):

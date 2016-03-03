@@ -1,0 +1,172 @@
+{% extends 'notes/base.html' %}
+{% load staticfiles %}
+
+
+{% block 'notes_js' %}
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+
+$('#table_id').DataTable({
+    "bFilter": false,
+    "info":     false,
+    "paging":   false,
+    "aoColumnDefs" : [ {
+                        "bSortable" : false,
+                        "aTargets" : [ "no-sort" ]
+    }],
+    "aaSorting": [[2,'asc']]
+  });
+
+
+$( "img.fav" ).click(function() {
+    var path = window.location.pathname
+    var pk = $(this).attr('id');
+    var fav_url = "{% url 'notes_favorites' 1 %}".replace('1', pk);
+    $.ajax({
+        url: fav_url,
+        success: function(data) {
+            if (path != '/listfavorites/') {
+                if (data['notes'] == 1) {
+                    var img_url = '/static/notes/img/star001.png';
+                }
+                else {
+                    var img_url = '/static/notes/img/star000.png';
+                }
+                $("img.fav#" + data['pk']).attr('src', img_url);
+            }
+            else {
+                $("img.fav#" + data['pk']).parent().parent().parent().remove();
+            }
+        }
+      
+    });
+});
+
+
+$( "a.delete" ).click(function() {
+    if (confirm('Действительно хотите удалить запись?')==true) {
+        var pk = $(this).attr('id');
+        var del_url = "{% url 'notes_delete' 1 %}".replace('1', pk);
+        $.ajax({
+            url: del_url,
+            success: function(data) {
+                $("tr.pk"+data['pk']).remove();
+            }
+        });        
+    }
+});
+
+
+$( "td.access" ).click(function() {
+    var pk = $(this).attr('id');
+    var acc_url = "{% url 'notes_access' 1 %}".replace('1', pk);
+    $.ajax({
+        url: acc_url,
+        success: function(data) {
+            $("td.access#"+pk+" a").text(data['notes']);
+        }
+    });
+});
+
+$("a.sort").click(function() {
+    
+    console.log('clicket')
+
+
+});
+
+
+$("form").hide();
+$("h3 a").click(function(){
+    $("form").toggle();
+})
+
+
+
+
+});
+
+</script>
+
+{% endblock %}
+
+
+{% block 'notes_body' %}
+
+    {% if not notes %}
+    <h3>Заметки не найдены.</h3>
+    
+    {% else %}
+    
+    <div class='filter'>
+    <h3><a href="#">Фильтр</a></h3>
+    <form action="{% url 'notes_all' %}">
+        {{ forms.as_p }}
+        <input class="button" type="submit" value="Фильтровать">
+        </form>
+    </div>
+
+        <table class="table" id="table_id" class="display">
+            <thead>
+                <tr>
+                    <th class="no-sort">№</th>
+                    <th class="no-sort">Заголовок</th>
+                    <th>Дата создания</a></th>
+                    <th>Категория</a></th>
+                    <th>Закладка</a></th>
+                    <th class="no-sort">Посмотреть</th>
+                    <th class="no-sort">Изменить</th>
+                    <th class="no-sort">Удалить</th>
+                    <th class="no-sort">Доступ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for note in notes %}
+                <tr class="pk{{ note.pk }}" id='data'>    
+                    <td>{{forloop.counter}}</td>
+                    <td>{{ note.notes_title }}</td>
+                    <td>{{ note.notes_date | date:'Y-m-d H:i' }}</td>
+                    <td>{{ note.notes_category }}</td>
+                    <td>
+                         {% if user.is_authenticated %}
+                        <a href="#">
+                            {% if not note.notes_favorites %}
+                                <img src="{% static 'notes/img/star000.png' %}" class="fav" id="{{ note.pk }}">
+                            {% else %}                
+                                <img src="{% static 'notes/img/star001.png' %}" class="fav" id="{{ note.pk }}">
+                            {% endif %}
+                        </a>
+                        {% endif %}
+                    </td>
+                    <td><a href="{% url 'notes_detail' note.pk %}">Посмотреть</a></td>
+                    <td>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'notes_edit' note.pk %}">Изменить</a>
+                        {% endif %}    
+                    </td>
+                    <td>
+                        {% if user.is_authenticated %}
+                            <a href="#" class='delete' id='{{ note.pk }}'>Удалить</a>
+                        {% endif %}
+                    </td>
+                    <td class='access' id="{{ note.pk }}">
+                        {% if user.is_authenticated %}
+                            {% if note.notes_public %}
+                                <a href="#">Public</a>
+                            {% else %}
+                                <a href="#">Private</a>
+                            {% endif %}
+                        {% else %}
+                            Public
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>        
+        </table>    
+    {% endif %}
+
+{% endblock %}
