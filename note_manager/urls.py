@@ -20,6 +20,4 @@ from notes import  views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^notes/', include('notes.urls', namespace='notes')),
-    url('/', views.HomeView.as_view()),
-
 ]

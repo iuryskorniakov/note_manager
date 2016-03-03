@@ -1,13 +1,16 @@
-{% extends 'notes/base.html' %}
+{% extends "notes/base.html" %}
 
-{% block notes %}
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% block content %}
 
-    <form action="{% url 'polls:vote' question.id %}" method="post">
-        {% csrf_token %}
-        {% for _note in Note.choice_set.all %}
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
 
-        {% endfor %}
-        <input type="submit" value="Vote" />
+    <form action="" method="post">
+      {% csrf_token %}
+
+      {{ form.as_p }}
+      <button type="submit">Зарегистрироваться</button>
     </form>
+
 {% endblock %}

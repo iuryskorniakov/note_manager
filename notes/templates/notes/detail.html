@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "notes/base.html" %}
 
-</body>
-</html>
+{% block content %}
+
+{% if form.errors %}
+<p>Edit note.</p>
+{% endif %}
+
+    <form action="" method="post">
+      {% csrf_token %}
+
+      {{ form.as_p }}
+      <button type="submit">Edit</button>
+    </form>
+
+{% endblock %}

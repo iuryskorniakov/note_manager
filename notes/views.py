@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import generic
-from django.views.generic.edit import FormView, CreateView, UpdateView
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.base import View
 from django.contrib.auth import logout
@@ -23,7 +22,7 @@ class HomeView(generic.DetailView):
     template_name = 'notes/home.html'
 
 
-class AddNotes(generic.CreateView):
+class AddNoteView(generic.CreateView):
     model = Note
     template_name = 'notes/add.html'
     success_url = '/'
@@ -31,29 +30,28 @@ class AddNotes(generic.CreateView):
 
     def form_valid(self, form):
         form.instance.notes_user = self.request.user
-        return super(AddNotes, self).form_valid(form)
+        return super(AddNoteView, self).form_valid(form)
 
-class DetailNotes(generic.DetailView):
+class DetailNoteView(generic.DetailView):
     model = Note
     template_name = 'notes/detail.html'
 
-    @property
-    def get_object(self):
-        obj = super(DetailNotes, self).get_object
+    def get_object(self, form):
+        obj = super(DetailNoteView, self).get_object()
         return obj
 
-class EditNotes(UpdateView):
+class EditNoteView(generic.UpdateView):
     model = Note
     template_name = 'notes/edit.html'
     success_url = '/'
     fields = ['title', 'body', 'date', 'category']
 
-    def get_object(self):
-        obj = super(EditNotes, self).get_object
+    def get_object(self, form):
+        obj = super(EditNoteView, self).get_object()
         return obj
 
 
-class LoginFormView(FormView):
+class LoginFormView(generic.FormView):
     form_class = AuthenticationForm
 
     template_name = "notes/login.html"
@@ -73,10 +71,10 @@ def LogoutView(request):
     return HttpResponseRedirect("/")
 
 
-class RegisterFormView(FormView):
+class RegisterFormView(generic.FormView):
     form_class = UserCreationForm
 
-    success_url = "/notes/login/"
+    success_url = "notes/login/"
 
     template_name = "notes/register.html"
 
