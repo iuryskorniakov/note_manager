@@ -8,6 +8,6 @@ urlpatterns = [
     url(r'^add/$', views.AddNoteView.as_view()),
     url(r'^edit/$', views.EditNoteView.as_view()),
     url(r'^detail/(?P<pk>\d+)$', views.DetailNoteView.as_view()),
-    url(r'^', views.HomeView),
+    url(r'^', views.home_view),
 ]
 

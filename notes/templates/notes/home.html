@@ -1,4 +1,4 @@
- {% extends 'notes/base.html' %}
+ {% extends 'base.html' %}
 
     {% block content %}
         {% for note in notes %}
@@ -11,7 +11,6 @@
                 <p>{{ note.body|linebreaks }}</p>
                 <div>
                     <b>{{note.category}}</b>
-                    <p>{{ note.uuid}}</p>
                 </div>
             </div>
         {% endfor %}

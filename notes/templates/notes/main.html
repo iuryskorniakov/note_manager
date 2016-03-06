@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+  <div id="editor-grid"></div>
+  <br>
+{% endblock %}
+
+ {% block auth %}
+     <li>
+         <b>{{ user }} </b>
+     </li>
+     <li>
+         <button class='signOut'>Sign out</button>
+     </li>
+ {% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="static/js/list_notes.js"></script>
+    <script type="text/javascript" src="static/js/auth.js"></script>
+{% endblock %}

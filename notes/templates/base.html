@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Simple Note Manager</title>
+
+  <!-- ** CSS ** -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/notes.css' %}">
+  <link rel="stylesheet" type="text/css" href="{%  static 'css/ext-all.css' %}" >
+  <style type="text/css"></style>
+
+</head>
+
+<body>
+    <div class="page-header">
+
+        <ul class="hr">
+            {% block auth %}
+            {% endblock %}
+
+        </ul>
+        <h1><a href="/">Note Manager</a></h1>
+    </div>
+    {% block content %}
+    {% endblock %}
+
+    <script type="text/javascript" src="static/js/jquery-1.11.1.min.js"></script>
+
+    <script type="text/javascript" src="static/js/ext-base.js"></script>
+
+    <script type="text/javascript" src="static/js/ext-all.js"></script>
+
+    <script type="text/javascript" src="static/js/CheckColumn.js"></script>
+    <script type="text/javascript" src="static/js/FieldLabeler.js"></script>
+    <script type="text/javascript" src="static/js/FieldReplicator.js"></script>
+
+    <script type="text/javascript" src="static/js/menu/RangeMenu.js"></script>
+    <script type="text/javascript" src="static/js/menu/ListMenu.js"></script>
+
+    <script type="text/javascript" src="static/js/GridFilters.js"></script>
+    <script type="text/javascript" src="static/js/filter/Filter.js"></script>
+    <script type="text/javascript" src="static/js/filter/StringFilter.js"></script>
+    <script type="text/javascript" src="static/js/filter/DateFilter.js"></script>
+    <script type="text/javascript" src="static/js/filter/ListFilter.js"></script>
+    <script type="text/javascript" src="static/js/filter/NumericFilter.js"></script>
+    <script type="text/javascript" src="static/js/filter/BooleanFilter.js"></script>
+
+    <script type="text/javascript" src="static/js/examples.js"></script>
+    <script type="text/javascript" src="static/js/common.js"></script>
+    <script type="text/javascript" src="static/js/note_actions.js"></script>
+
+
+    {% block script %}
+    {% endblock %}
+
+</body>
+</html>

@@ -1,34 +1,36 @@
+import uuid
 from django.contrib.auth.models import User
-from django.utils import timezone
-
 from django.db import models
 
 
-class Category(models.Model):
-    category_name = models.CharField(max_length=255, default='')
-
-    def __str__(self):
-        return self.category_name
-
-
-# Create your models here.
-class Note(models.Model):
-    """ Database table"""
-    uuid = models.CharField(max_length=255, default='', editable=False)
-    title = models.CharField(max_length=255, default='')
-    author = models.ForeignKey(User, default=None)
-    body = models.TextField(default='')
-    created_date = models.DateTimeField(
-            default=timezone.now())
-    published_date = models.DateTimeField(
-            blank=True, null=True)
-    category = models.ForeignKey('Category', default=None)
+class Notes(models.Model):
+    REFERENCE = 'Reference'
+    NOTICE = 'Notice'
+    REMINDER = 'Reminder'
+    TODO = 'TODO'
+    CATEGORY_CHOICES = (
+        (REFERENCE, 'Reference'),
+        (NOTICE, 'Notice'),
+        (REMINDER, 'Reminder'),
+        (TODO, 'TODO'),
+    )
+    user = models.ForeignKey(User)
+    title = models.CharField(max_length=255)
+    text = models.TextField(default='')
+    date_time = models.DateTimeField(auto_now_add=True)
+    category = models.CharField(max_length=15, choices=CATEGORY_CHOICES,
+                                default=NOTICE)
     favorites = models.BooleanField(default=False)
-    public = models.BooleanField(default=False)
-
-    def publish(self):
-        self.published_date = timezone.now()
-        self.save()
+    publish = models.BooleanField(default=False)
+    uu_id = models.CharField(primary_key=True, default=uuid.uuid1,
+                             editable=False, max_length=100)
 
     def __str__(self):
         return self.title
+
+
+class Category(models.Model):
+    cat_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.cat_name
