@@ -1,22 +1,14 @@
 from datetime import datetime
 import json
-from django.contrib import auth
-from django.contrib.auth.decorators import login_required
+
 from django.contrib.auth.models import User
 from django.contrib.auth import login as auth_login
-from django.http import JsonResponse, Http404
-from django.shortcuts import render, redirect
-
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, JsonResponse, Http404
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views import generic
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import logout
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login
+from django.http import JsonResponse, Http404
+from django.shortcuts import render, redirect
 from django.db.models import Q
+
 from .models import Notes, Category
 
 
